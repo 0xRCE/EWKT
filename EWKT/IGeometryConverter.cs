@@ -7,10 +7,10 @@ namespace EWKT
 {
     public interface IGeometryConverter
     {
-        void Commit();
-        IGeometryConverter ConvertFrom(IGeometry geometry);
+        void NewPart();
         void AddSegmentPoints(IEnumerable<CoordinateModel> coordinates);
         void AddSegmentArc(IEnumerable<CoordinateModel> coordinates);
         void NewInteriorRing();
+        void Commit();
     }
 }

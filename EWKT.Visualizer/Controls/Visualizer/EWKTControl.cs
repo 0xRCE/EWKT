@@ -121,9 +121,11 @@ namespace EWKT.Visualizer.Controls.Visualizer
                 {
                     foreach (IGeometry geoItem in geometry)
                     {
-                        var geo = GeometryToGraphicsConverter.Convert(geoItem);
-                        geometryGraphics.Add(geo);
-
+                        var convertedGeometry = GeometryToGraphicsConverter.Convert(geoItem);
+                        foreach (var geo in convertedGeometry)
+                        {
+                            geometryGraphics.Add(geo);
+                        }
                     }
                     ZoomTo(geometryGraphics);
                 }

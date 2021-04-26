@@ -16,9 +16,12 @@ namespace EWKT.Primitives
 
         public override void Convert(IGeometryConverter converter)
         {
-            ConvertChildren(converter);
+            foreach (var geometry in Children)
+            {
+                geometry.Convert(converter);
+                //ConvertChildren(converter);
+            }
         }
-
 
         public override void Serialize(IGeometrySerializer writer)
         {

@@ -14,28 +14,28 @@ namespace EWKT.Visualizer.Controls.Visualizer
     class GeometryToGraphicsConverter : IGeometryConverter, IDisposable
     {
         private GraphicsPath currentPath;
-        private readonly GeometryGraphic graphic;
-        private readonly List<PointF> points;
+        private GeometryGraphic graphicCurrentPart;
+        private List<PointF> pointsCurrentPart;
+        private List<Tuple<GeometryGraphic, IEnumerable<PointF>>> intermediateResult;
 
         private GeometryToGraphicsConverter()
         {
-            points = new List<PointF>();
-            graphic = new GeometryGraphic();
-            NewInteriorRing();
+            intermediateResult = new List<Tuple<GeometryGraphic, IEnumerable<PointF>>>();
+            //points = new List<PointF>();
+            //graphic = new GeometryGraphic();
+            //NewInteriorRing();
+            NewPart();
         }
 
-        public GeometryData Result { get; private set; }
+        public IEnumerable<GeometryData> Result { get; private set; }
 
-        public static GeometryData Convert(IGeometry geometry)
+        public static IEnumerable<GeometryData> Convert(IGeometry geometry)
         {
             var converter = new GeometryToGraphicsConverter();
-            converter.ConvertFrom(geometry).Commit();
-            return converter.Result;
-        }
+            geometry?.Convert(converter);
+            converter.Commit();
 
-        public IGeometryConverter AddPropertyInfo(string key, string value)
-        {
-            return this;
+            return converter.Result;
         }
 
         public void AddSegmentArc(IEnumerable<CoordinateModel> coordinates)
@@ -64,7 +64,7 @@ namespace EWKT.Visualizer.Controls.Visualizer
             sweepAngle = calc.NormalizeAngle(sweepAngle);
 
             currentPath.AddArc(box, (float)startAngle, (float)sweepAngle);
-            points.AddRange(coordinates.Select(ConvertCoordinate));
+            pointsCurrentPart.AddRange(coordinates.Select(ConvertCoordinate));
         }
 
         private RectangleF DetermineBoundingBox(Circle point)
@@ -82,7 +82,7 @@ namespace EWKT.Visualizer.Controls.Visualizer
         {
             var convertedPoints = coordinates.Select(ConvertCoordinate).ToList();
             currentPath.AddLines(convertedPoints.ToArray());
-            points.AddRange(convertedPoints);
+            pointsCurrentPart.AddRange(convertedPoints);
         }
 
         private PointF ConvertCoordinate(CoordinateModel coordinate)
@@ -92,35 +92,43 @@ namespace EWKT.Visualizer.Controls.Visualizer
 
         public void Commit()
         {
-            var result = new GeometryData();
-            result.Points = new List<PointF>(points);
-            result.GraphicPath = new GeometryGraphic(graphic);
+            var result = new List<GeometryData>();
+            foreach (var interResult in intermediateResult)
+            {
+                var data = new GeometryData();
+                data.Points = new List<PointF>(interResult.Item2);
+                data.GraphicPath = new GeometryGraphic(interResult.Item1);
+
+                result.Add(data);
+            }
 
             Result = result;
         }
 
-        public IGeometryConverter ConvertFrom(IGeometry geometrie)
+        public void NewPart()
         {
-            geometrie?.Convert(this);
-            return this;
+            pointsCurrentPart = new List<PointF>();
+            graphicCurrentPart = new GeometryGraphic();
+            intermediateResult.Add(new Tuple<GeometryGraphic, IEnumerable<PointF>>(graphicCurrentPart, pointsCurrentPart));
+            NewInteriorRing();
         }
 
         public void NewInteriorRing()
         {
             currentPath = new GraphicsPath();
-            graphic.Add(currentPath);
-        }
-
-        public IGeometryConverter SetHoogte(double? value)
-        {
-            return this;
+            //graphic.Add(currentPath);
+            graphicCurrentPart.Add(currentPath);
         }
 
         public void Dispose()
         {
-            foreach (var path in graphic)
+            foreach (var result in intermediateResult)
             {
-                path.Dispose();
+                var graphic = result.Item1;
+                foreach (var path in graphic)
+                {
+                    path.Dispose();
+                }
             }
         }
     }

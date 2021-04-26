@@ -13,5 +13,20 @@ namespace EWKT.Primitives
                 return GeometryTypes.MULTIPOLYGON;
             }
         }
+
+        public override void Convert(IGeometryConverter converter)
+        {
+            var first = true;
+            foreach (var polygon in Children)
+            {
+                if (!first)
+                {
+                    converter.NewPart();
+                }
+
+                polygon.Convert(converter);
+                first = false;
+            }
+        }
     }
 }

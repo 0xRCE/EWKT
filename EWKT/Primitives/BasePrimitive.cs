@@ -69,17 +69,20 @@ namespace EWKT.Primitives
             writer.ClosingParenthesis();
         }
 
-        protected void ConvertChildren(IGeometryConverter converter)
-        {
-            bool first = true;
-            foreach (var geometry in Children)
-            {
-                if (!first) converter.NewInteriorRing();
+        //protected void ConvertChildren(IGeometryConverter converter)
+        //{
+        //    bool first = true;
+        //    foreach (var geometry in Children)
+        //    {
+        //        if (!first)
+        //        {
+        //            converter.NewInteriorRing();
+        //        }
 
-                geometry.Convert(converter);
-                first = false;
-            }
-        }
+        //        geometry.Convert(converter);
+        //        first = false;
+        //    }
+        //}
 
     }
 }
