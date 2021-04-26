@@ -1,5 +1,6 @@
 ﻿using EWKT.Parsers;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,9 +9,10 @@ using System.Text;
 
 namespace EWKT.Tests.Parsers
 {
+    [TestClass]
     public class EWKTLexerTests
     {
-        [Test]
+        [TestMethod]
         public void Test_Lexer_Simple_WKT()
         {
             var ewkt = "POINT(1 2)";
@@ -26,7 +28,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual("2", tokens[3].RawValue);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_Tokens()
         {
             var ewkt = "CURVEPOLYGON((1 0, 2 0))"; //note: invalid curve polygon, must have at least four points
@@ -54,7 +56,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual(tokens[9].Type, TokenType.GeometryEndSeparator);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_Tokens_Should_Contain_NegativeNumber()
         {
             var ewkt = "POINT(1 -2)";
@@ -77,7 +79,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual(tokens[4].Type, TokenType.GeometryEndSeparator);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_ReadEntireStream_SingleLine()
         {
             var complex_ewkt_sinleline = "CURVEPOLYGON(CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0), (1 1, 1 4, 3 3, 3 2, 1 1), (1 0, 2 0, 3 1, 1 0))";
@@ -91,7 +93,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual(complex_ewkt_sinleline.Length + 1, lexer.Column);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_ReadEntireStream_MultiLine()
         {
             var complex_ewkt_multiline = @"CURVEPOLYGON(
@@ -108,7 +110,7 @@ CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0),
             Assert.AreEqual(49, lexer.Column);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_TokensNested()
         {
             var ewkt = "CURVEPOLYGON(CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0), (1 1,1 4 , 3 3, 3 2, 1 1), (1 0, 2 0, 3 1, 1 0))";
@@ -134,17 +136,17 @@ CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0),
             Assert.AreEqual(TokenType.GeometryEndSeparator, tokens[50].Type); //close ) CURVEPOLYGON
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_Token_NotSupported()
         {
             var ewkt = ((char)33).ToString();
             var reader = new StringReader(ewkt);
             var lexer = new EWKTLexer(reader);
 
-            Assert.Throws<NotSupportedException>(() => lexer.Tokenize().ToList());
+            Assert.ThrowsException<NotSupportedException>(() => lexer.Tokenize().ToList());
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_Token_With_NumberIntegerAndDecimal()
         {
             var ewkt = "POINT(1 2.0)";
@@ -161,7 +163,7 @@ CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0),
             Assert.AreEqual("2.0", tokens[3].RawValue);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_PrimitiveNode_With_Space_Between_Primitive_And_Seperator()
         {
             var wkt = "POINT (30 10)";
@@ -178,7 +180,7 @@ CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0),
             Assert.AreEqual(tokens[1].Type, TokenType.GeometryStartSeparator);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_GeometryWithSpace_And_Z()
         {
             var ewkt = "LINESTRING Z (75.15 29.53 1, 77 29 1, 77.6 29.5 1, 75.15 29.53 1)";
@@ -196,7 +198,7 @@ CIRCULARSTRING(0 0, 4 0, 4 4, 0 4, 0 0),
 
         }
 
-        [Test]
+        [TestMethod]
         public void Test_Lexer_Scientific_Notation()
         {
             var ewkt = "POINT(3.0445e-07 19)";

@@ -1,6 +1,7 @@
 ﻿using EWKT.Parsers;
 using EWKT.Primitives;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ using System.Text;
 
 namespace EWKT.Tests.Parsers
 {
+    [TestClass]
     public class EWKTParserTests
     {
-        [Test]
+        [TestMethod]
         public void Test_EWKTParser_RootGeometry()
         {
             var ewkt = "POINT (10 20)";
@@ -18,10 +20,10 @@ namespace EWKT.Tests.Parsers
             var root = EWKTParser.Convert(ewkt);
 
             Assert.IsNotNull(root);
-            Assert.IsInstanceOf<PointZ>(root);
+            Assert.IsInstanceOfType(root, typeof(PointZ));
         }
 
-        [Test]
+        [TestMethod]
         public void Test_EWKTParser_Point_Negative_Coordinate()
         {
             var ewkt = "POINT(-1 2.0)";
@@ -36,7 +38,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual("-1 2.0", coordinates[0].Set);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_EWKTParser_PointGeometry_Negative_Coordinate()
         {
             var ewkt = "POINT(-1 2.0)";
@@ -48,7 +50,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual(2.0d, point.Y);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_EWKTParser_Null()
         {
             var ewkt = (string)null;
@@ -57,7 +59,7 @@ namespace EWKT.Tests.Parsers
             Assert.IsNull(geom);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_EWKTParser_Simple_Polygon()
         {
             var ewkt = "POLYGON Z((30 10 1,40 40 1,20 40 1,10 20 1,30 10 1))";
@@ -72,7 +74,7 @@ namespace EWKT.Tests.Parsers
             Assert.AreEqual("30 10 1, 40 40 1, 20 40 1, 10 20 1, 30 10 1", coordinates[0].Set);
         }
 
-        [Test]
+        [TestMethod]
         public void Test_EWKTParser_Complex_CurvePolygon()
         {
             var ewkt = "CURVEPOLYGON(CIRCULARSTRING(1 3, 3 5, 4 7, 7 3, 1 3))";

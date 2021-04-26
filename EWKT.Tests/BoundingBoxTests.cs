@@ -1,11 +1,13 @@
 using EWKT.Models;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using NUnit.Framework;
 
 namespace EWKT.Tests
 {
+    [TestClass]
     public class Tests
     {
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_Inside_Expected()
         {
             var box = new BoundingBox(0, 0, 2, 2);
@@ -14,7 +16,7 @@ namespace EWKT.Tests
             Assert.IsTrue(box.Inside(new CoordinateModel { X = 1.99, Y = 1.99 }));
         }
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_Inside_Not_Expected()
         {
             var box = new BoundingBox(0, 0, 2, 2);
@@ -24,7 +26,7 @@ namespace EWKT.Tests
 
         }
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_OnEdge_Expected()
         {
             var box = new BoundingBox(0, 0, 2, 2);
@@ -46,7 +48,7 @@ namespace EWKT.Tests
             Assert.IsTrue(box.OnEgde(new CoordinateModel { X = 0, Y = 2 }));
         }
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_OnEdge_Not_Expected()
         {
             var box = new BoundingBox(0, 0, 2, 2);
@@ -69,7 +71,7 @@ namespace EWKT.Tests
             Assert.IsFalse(box.OnEgde(new CoordinateModel { X = 0, Y = -0.1 }));
         }
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_Intersection_Expected()
         {
             var box = new BoundingBox(0, 0, 2, 2);
@@ -78,7 +80,7 @@ namespace EWKT.Tests
             Assert.IsTrue(box.IntersectsWith(new BoundingBox(2, 0, 4, 2)));
         }
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_Intersection_Not_Expected()
         {
             var box = new BoundingBox(0, 0, 2, 2);
@@ -88,7 +90,7 @@ namespace EWKT.Tests
         }
 
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_Merge_Other_Smaller()
         {
             var box = new BoundingBox(0, 0, 4, 4);
@@ -103,7 +105,7 @@ namespace EWKT.Tests
         }
 
 
-        [Test]
+        [TestMethod]
         public void Test_BoundingBox_Merge_Other_Null()
         {
             var box = new BoundingBox(0, 0, 4, 4);

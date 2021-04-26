@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EWKT", "EWKT\EWKT.csproj", "{062A42D3-D040-4FFD-8F28-ED1AB723BD49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EWKT", "EWKT\EWKT.csproj", "{062A42D3-D040-4FFD-8F28-ED1AB723BD49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EWKT.Tests", "EWKT.Tests\EWKT.Tests.csproj", "{BFC1812A-DDFA-4DE7-9B4F-6D9053A70D2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EWKT.Tests", "EWKT.Tests\EWKT.Tests.csproj", "{BFC1812A-DDFA-4DE7-9B4F-6D9053A70D2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EWKT.Visualizer", "EWKT.Visualizer\EWKT.Visualizer.csproj", "{2F089B3D-74A4-42DC-B418-23EECC76964F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BFC1812A-DDFA-4DE7-9B4F-6D9053A70D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFC1812A-DDFA-4DE7-9B4F-6D9053A70D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFC1812A-DDFA-4DE7-9B4F-6D9053A70D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F089B3D-74A4-42DC-B418-23EECC76964F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F089B3D-74A4-42DC-B418-23EECC76964F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F089B3D-74A4-42DC-B418-23EECC76964F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F089B3D-74A4-42DC-B418-23EECC76964F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
