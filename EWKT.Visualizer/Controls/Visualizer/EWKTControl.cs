@@ -134,7 +134,7 @@ namespace EWKT.Visualizer.Controls.Visualizer
         }
 
         /// <summary>
-        /// MetersPerPixel bepaalt het zoomLevel
+        /// MetersPerPixel determines zoomLevel
         /// </summary>
         public float MetersPerPixel
         {
@@ -204,16 +204,16 @@ namespace EWKT.Visualizer.Controls.Visualizer
 
             var view = UpdateCurrentView();
 
-            //werken met wereldcoordinaten
+            //Change coordinates from screen to real world coordinates
             g.ResetTransform();
             g.TranslateTransform(-view.Left, -view.Top, System.Drawing.Drawing2D.MatrixOrder.Append);
             //flip y as
             g.ScaleTransform(view.PixelPerMeter, -view.PixelPerMeter, System.Drawing.Drawing2D.MatrixOrder.Append);
 
-            //laat 0,0 links onderin beginnen
+            //0,0 starts left bottom 
             g.TranslateTransform(0, Height, System.Drawing.Drawing2D.MatrixOrder.Append);
 
-            //breedte aanpassen ivm zoomen
+            //change with according to zoom
             pen.Width = MetersPerPixel;
 
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -270,9 +270,7 @@ namespace EWKT.Visualizer.Controls.Visualizer
             currentView.Top = smallestY;
             UpdateCurrentView();
         }
-        /// <summary>
-        /// zoomed uit met een in de constants gedefinieerde factor
-        /// </summary>
+        
         public void ZoomOut()
         {
             MetersPerPixel = MetersPerPixel * Constants.ZoomFactor;

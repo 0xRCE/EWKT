@@ -38,8 +38,23 @@ namespace EWKT.Visualizer.Controls.Visualizer
 
         private static void Paint(GraphicsPainter painter, GraphicsPath path, Brush brush)
         {
+            var isClosed = IsClosed(path.PathPoints[0], path.PathPoints[path.PointCount - 1]);
             painter.DrawPath(path);
-            painter.FillPath(brush, path);
+            if (isClosed)
+            {
+                painter.FillPath(brush, path);
+            }
+        }
+
+        private static bool IsClosed(PointF p1, PointF p2)
+        {
+            return Equals(p1.X, p2.X) && Equals(p1.Y, p2.Y);
+        }
+
+        private static bool Equals(float a, float b)
+        {
+            const float ypsilon = 0.00000000001f;
+            return Math.Abs(a - b) <= ypsilon;
         }
 
         public void Dispose()

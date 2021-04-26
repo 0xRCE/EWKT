@@ -16,10 +16,16 @@ namespace EWKT.Primitives
 
         public override void Convert(IGeometryConverter converter)
         {
+            var first = true;
             foreach (var geometry in Children)
             {
+                if (!first)
+                {
+                    converter.NewPart();
+                }
+
                 geometry.Convert(converter);
-                //ConvertChildren(converter);
+                first = false;
             }
         }
 
