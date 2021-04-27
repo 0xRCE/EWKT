@@ -1,5 +1,7 @@
 ﻿using EWKT.Models;
 using EWKT.Parsers;
+using EWKT.Primitives;
+using EWKT.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -72,6 +74,18 @@ namespace EWKT.Tests
             converterMock.Verify(x => x.NewInteriorRing(), Times.Once());
             converterMock.Verify(x => x.AddSegmentPoints(It.IsAny<IEnumerable<CoordinateModel>>()), Times.Exactly(3));
         }
+
+
+        [TestMethod]
+        public void Test_IGeometryConverter_IGeometry_Point_To_EWKT()
+        {
+            IGeometry point = new PointZ(10.0d, 24.5d, 0.0d);
+
+            var ewkt = EWKTSerializer.Serialize(point); // POINT Z (10 24.5 0)
+
+            Assert.AreEqual("POINT Z (10 24.5 0)", ewkt);
+        }
+
 
     }
 }

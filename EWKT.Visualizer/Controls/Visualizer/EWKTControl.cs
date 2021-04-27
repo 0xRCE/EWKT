@@ -275,11 +275,7 @@ namespace EWKT.Visualizer.Controls.Visualizer
         {
             MetersPerPixel = MetersPerPixel * Constants.ZoomFactor;
         }
-        /// <summary>
-        /// factor > 1: zoom out
-        /// factor < 1: zoom in
-        /// </summary>
-        /// <param name="factor"></param>
+     
         private void Zoom(float factor)
         {
             float widthMeters = Width * MetersPerPixel;
@@ -291,12 +287,6 @@ namespace EWKT.Visualizer.Controls.Visualizer
             Invalidate();
         }
 
-        /// <summary>
-        /// Zoomed in, terwijl de positie van clientCoordinate niet veranderd
-        /// (met andere woorden: wat er eerst op dit punt op het scherm getekend werd,
-        /// wordt na het zoomen nog steeds hier getekend)
-        /// </summary>
-        /// <param name="clientCoordinate"></param>
         public void ZoomInOnPoint(Point clientCoordinate)
         {
             var world = ClientToWorld(clientCoordinate);
@@ -307,12 +297,7 @@ namespace EWKT.Visualizer.Controls.Visualizer
             currentView.Top = currentView.Top + world.Y - newWorld.Y;
             Invalidate();
         }
-        /// <summary>
-        /// Zoomed uit, terwijl de positie van clientCoordinate niet veranderd
-        /// (met andere woorden: wat er eerst op dit punt op het scherm getekend werd,
-        /// wordt na het zoomen nog steeds hier getekend)
-        /// </summary>
-        /// <param name="clientCoordinate"></param>
+
         public void ZoomOutOnPoint(System.Drawing.Point clientCoordinate)
         {
             var world = ClientToWorld(clientCoordinate);
@@ -324,25 +309,9 @@ namespace EWKT.Visualizer.Controls.Visualizer
             Invalidate();
         }
 
-        /// <summary>
-        /// Converteert tussen Client coordinaten (pixels in control) naar wereld coordinaten
-        /// (meters Rijksdriehoekstelsel)
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
         public Point ClientToWorld(Point point)
         {
             return currentView.ClientToWorld(point);
-        }
-        /// <summary>
-        /// Converteert tussen wereld coordinaten (meters Rijksdriehoekstelsel)
-        /// en Client coordinaten (pixels in control) 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public Point WorldToClient(Point point)
-        {
-            return currentView.WorldToClient(point);
         }
     }
 }

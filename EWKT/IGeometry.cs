@@ -1,8 +1,11 @@
-﻿using System;
+﻿using EWKT.Serialization;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace EWKT
 {
+    [JsonConverter(typeof(JsonGeometryConverter))]
     public interface IGeometry
     {
         string PrimitiveType { get; }
